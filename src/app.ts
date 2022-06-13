@@ -1,20 +1,16 @@
 import express from "express";
-import path from "path";
 
-import { loadApiEndpoints } from "./controllers/api";
+import router from "./controllers";
 
-// Create Express server
-const app = express();
+const buildApp = () => {
+  const app = express();
 
-// Express configuration
-app.set("port", process.env.PORT || 3000);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  express.static(path.join(__dirname, "../public"), { maxAge: 31557600000 })
-);
+  app.use("/api", router);
 
-loadApiEndpoints(app);
+  return app;
+};
 
-export default app;
+export default buildApp;
