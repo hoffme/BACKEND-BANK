@@ -1,5 +1,3 @@
-import buildApp from "./app";
-import runServer from "./server";
+import runApp from "./app";
 
-const app = buildApp();
-runServer(app);
+runApp().catch(console.error);

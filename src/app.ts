@@ -1,16 +1,11 @@
-import express from "express";
+import config from "./config";
+import Controller from "./controllers/controller";
+import buildInfrastructure from "./infrastructure/build";
+import runServer from "./server";
 
-import router from "./controllers";
-
-const buildApp = () => {
-  const app = express();
-
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-
-  app.use("/api", router);
-
-  return app;
+const runApp = async () => {
+  Controller.adapters = await buildInfrastructure();
+  runServer(config.port);
 };
 
-export default buildApp;
+export default runApp;
