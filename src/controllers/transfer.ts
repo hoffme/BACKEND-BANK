@@ -31,7 +31,7 @@ const CreateBodyVerify = z.object({
 });
 
 class TransferController extends Controller {
-  public static getHandler(req: Request, res: Response, next: NextFunction) {
+  public static get(req: Request, res: Response, next: NextFunction) {
     this.wrpAsync(req, res, next, async () => {
       const transferId = req.params.id;
       if (!transferId) {
@@ -51,9 +51,14 @@ class TransferController extends Controller {
     });
   }
 
-  public static searchHandler(req: Request, res: Response, next: NextFunction) {
+  public static search(req: Request, res: Response, next: NextFunction) {
     this.wrpAsync(req, res, next, async () => {
-      const filter = SearchBodyVerify.parse(req.body);
+      const filter = this.zodBodyVerification<z.infer<typeof SearchBodyVerify>>(
+        req,
+        res,
+        SearchBodyVerify
+      );
+      if (!filter) return;
 
       const result = await this.adapters.stores.transfer.Search(filter);
 
@@ -61,19 +66,24 @@ class TransferController extends Controller {
     });
   }
 
-  public static createHandler(req: Request, res: Response, next: NextFunction) {
+  public static create(req: Request, res: Response, next: NextFunction) {
     this.wrpAsync(req, res, next, async () => {
-      const params = CreateBodyVerify.parse(req.body);
+      const params = this.zodBodyVerification<z.infer<typeof CreateBodyVerify>>(
+        req,
+        res,
+        CreateBodyVerify
+      );
+      if (!params) return;
 
       const cardFrom = await this.adapters.stores.card.FindById(params.from_id);
       if (!cardFrom) {
-        this.sendERROR(res, new Error("not found card from"), 404);
+        this.sendERROR(res, "not found card from", 404);
         return;
       }
 
       const cardTo = await this.adapters.stores.card.FindById(params.to_id);
       if (!cardTo) {
-        this.sendERROR(res, new Error("not found card to"), 404);
+        this.sendERROR(res, "not found card to", 404);
         return;
       }
 

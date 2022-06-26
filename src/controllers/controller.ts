@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { z, ZodError } from "zod";
 
 import { Adapters } from "../adapters/adapters";
 
@@ -15,11 +16,24 @@ abstract class Controller {
   }
 
   protected static sendJSON<T>(res: Response, result: T, code = 200) {
-    res.sendStatus(code).json({ code, result });
+    res.status(code).json({ code, result });
   }
 
   protected static sendERROR<T>(res: Response, error: T, code = 500) {
-    res.sendStatus(code).json({ code, error });
+    res.status(code).json({ code, error });
+  }
+
+  protected static zodBodyVerification<T>(
+    req: Request,
+    res: Response,
+    verify: z.ZodSchema
+  ): T | undefined {
+    try {
+      return verify.parse(req.body);
+    } catch (e) {
+      const error = e instanceof ZodError ? e.issues : "Invalid Params";
+      this.sendERROR(res, error, 400);
+    }
   }
 
   protected static wrpAsync(

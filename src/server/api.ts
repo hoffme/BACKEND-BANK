@@ -8,34 +8,33 @@ import TransferController from "../controllers/transfer";
 
 // AUTH ROUTER
 const authRouter = Router();
-authRouter.post("/sign_in", AuthController.signInHandler);
-authRouter.post("/sign_up", AuthController.signUpHandler);
+authRouter.post("/sign_in", (...p) => AuthController.signIn(...p));
+authRouter.post("/sign_up", (...p) => AuthController.signUp(...p));
 
 // ACCOUNT ROUTER
 const accountRouter = Router();
-accountRouter.use(AuthMiddleware.access);
-accountRouter.get("/profile", AccountController.profileHandler);
-accountRouter.get("/home", AccountController.homeHandler);
+accountRouter.use((...p) => AuthMiddleware.access(...p));
+accountRouter.get("/profile", (...p) => AccountController.profile(...p));
+accountRouter.get("/home", (...p) => AccountController.home(...p));
 
 // CARD ROUTER
 const cardRouter = Router();
-cardRouter.use(AuthMiddleware.access);
-cardRouter.get("/:id", CardController.getHandler);
-cardRouter.post("/search", CardController.searchHandler);
-cardRouter.post("/", CardController.createHandler);
-cardRouter.delete("/:id", CardController.removeHandler);
+cardRouter.use((...p) => AuthMiddleware.access(...p));
+cardRouter.get("/:id", (...p) => CardController.get(...p));
+cardRouter.post("/search", (...p) => CardController.search(...p));
+cardRouter.post("/", (...p) => CardController.create(...p));
 
 // TRANSFER ROUTER
 const transferRouter = Router();
-transferRouter.use(AuthMiddleware.access);
-transferRouter.get("/:id", TransferController.getHandler);
-transferRouter.post("/search", TransferController.searchHandler);
-transferRouter.post("/", TransferController.createHandler);
+transferRouter.use((...p) => AuthMiddleware.access(...p));
+transferRouter.get("/:id", (...p) => TransferController.get(...p));
+transferRouter.post("/search", (...p) => TransferController.search(...p));
+transferRouter.post("/", (...p) => TransferController.create(...p));
 
 // CONTACTS ROUTER
 const contactsRouter = Router();
-contactsRouter.use(AuthMiddleware.access);
-contactsRouter.post("/search", ContactsController.searchHandler);
+contactsRouter.use((...p) => AuthMiddleware.access(...p));
+contactsRouter.post("/search", (...p) => ContactsController.search(...p));
 
 // MAIN ROUTER
 const mainRouter = Router();

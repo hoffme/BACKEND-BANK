@@ -5,10 +5,7 @@ import { JWTClaim } from "../adapters/crypto";
 import Controller from "./controller";
 
 interface AuthJWTClaims extends JWTClaim {
-  user: {
-    id: string;
-    dni: string;
-  };
+  uid: string;
 }
 
 interface AuthAccess {
@@ -33,9 +30,14 @@ const SignUpBodyVerify = z.object({
 });
 
 class AuthController extends Controller {
-  public static signUpHandler(req: Request, res: Response, next: NextFunction) {
+  public static signUp(req: Request, res: Response, next: NextFunction) {
     this.wrpAsync(req, res, next, async () => {
-      const params = SignUpBodyVerify.parse(req.body);
+      const params = this.zodBodyVerification<z.infer<typeof SignUpBodyVerify>>(
+        req,
+        res,
+        SignUpBodyVerify
+      );
+      if (!params) return;
 
       const userWithSameDNI = await this.adapters.stores.user.FindByDNI(
         params.dni
@@ -72,9 +74,14 @@ class AuthController extends Controller {
     });
   }
 
-  public static signInHandler(req: Request, res: Response, next: NextFunction) {
+  public static signIn(req: Request, res: Response, next: NextFunction) {
     this.wrpAsync(req, res, next, async () => {
-      const params = SignInBodyVerify.parse(req.body);
+      const params = this.zodBodyVerification<z.infer<typeof SignInBodyVerify>>(
+        req,
+        res,
+        SignInBodyVerify
+      );
+      if (!params) return;
 
       const user = await this.adapters.stores.user.FindByDNI(params.dni);
       if (!user) {
@@ -94,7 +101,7 @@ class AuthController extends Controller {
       const expiresIn = 60 * 15; // 15 minutes
 
       const token = await this.adapters.crypto.jwtEncode<AuthJWTClaims>(
-        { user: { id: user.id, dni: user.dni } },
+        { uid: user.id },
         expiresIn
       );
 
@@ -108,16 +115,18 @@ class AuthController extends Controller {
 class AuthMiddleware extends Controller {
   public static access(req: Request, res: Response, next: NextFunction) {
     this.wrpAsync(req, res, next, async () => {
-      const token = req.headers.authorization;
-      if (!token) {
+      const barerToken = req.headers.authorization?.split(" ");
+      if (!barerToken) {
         this.sendERROR(res, "unauthorized", 401);
         next(new Error("unauthorized"));
         return;
       }
 
+      const token = barerToken[1];
+
       const claims = await this.adapters.crypto.jwtDecode<AuthJWTClaims>(token);
 
-      const user = await this.adapters.stores.user.FindById(claims.user.id);
+      const user = await this.adapters.stores.user.FindById(claims.uid);
       if (!user) {
         this.sendERROR(res, "unauthorized", 401);
         next(new Error("unauthorized"));

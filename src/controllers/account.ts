@@ -3,11 +3,11 @@ import { NextFunction, Request, Response } from "express";
 import Controller from "./controller";
 
 class AccountController extends Controller {
-  public static profileHandler(req: Request, res: Response) {
+  public static profile(req: Request, res: Response, next: NextFunction) {
     this.sendJSON(res, { ...req.access.user });
   }
 
-  public static homeHandler(req: Request, res: Response, next: NextFunction) {
+  public static home(req: Request, res: Response, next: NextFunction) {
     this.wrpAsync(req, res, next, async () => {
       const transfersFrom = await this.adapters.stores.transfer.Search({
         fromUserId: req.access.user.id,

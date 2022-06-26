@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
 
-import { Card, CardSearchFilter } from "../adapters/cards";
+import { Card } from "../adapters/cards";
 import Controller from "./controller";
 
 const orderByEnum = {
@@ -30,7 +30,7 @@ const CreateBodyVerify = z.object({
 });
 
 class CardController extends Controller {
-  public static getHandler(req: Request, res: Response, next: NextFunction) {
+  public static get(req: Request, res: Response, next: NextFunction) {
     this.wrpAsync(req, res, next, async () => {
       const cardId = req.params.id;
       if (!cardId) {
@@ -50,9 +50,14 @@ class CardController extends Controller {
     });
   }
 
-  public static searchHandler(req: Request, res: Response, next: NextFunction) {
+  public static search(req: Request, res: Response, next: NextFunction) {
     this.wrpAsync(req, res, next, async () => {
-      const filter: CardSearchFilter = SearchBodyVerify.parse(req.body);
+      const filter = this.zodBodyVerification<z.infer<typeof SearchBodyVerify>>(
+        req,
+        res,
+        SearchBodyVerify
+      );
+      if (!filter) return;
 
       const result = await this.adapters.stores.card.Search(filter);
 
@@ -60,9 +65,14 @@ class CardController extends Controller {
     });
   }
 
-  public static createHandler(req: Request, res: Response, next: NextFunction) {
+  public static create(req: Request, res: Response, next: NextFunction) {
     this.wrpAsync(req, res, next, async () => {
-      const params = CreateBodyVerify.parse(req.body);
+      const params = this.zodBodyVerification<z.infer<typeof CreateBodyVerify>>(
+        req,
+        res,
+        CreateBodyVerify
+      );
+      if (!params) return;
 
       const id = await this.adapters.crypto.uuid();
       const number = await this.adapters.stores.card.NewNumberCard();
@@ -85,28 +95,6 @@ class CardController extends Controller {
       const result = { card };
 
       this.sendJSON(res, result, 201);
-    });
-  }
-
-  public static removeHandler(req: Request, res: Response, next: NextFunction) {
-    this.wrpAsync(req, res, next, async () => {
-      const id = req.params.id;
-      if (!id) {
-        this.sendERROR(res, "invalid id");
-        return;
-      }
-
-      const card = await this.adapters.stores.card.FindById(id);
-      if (!card) {
-        this.sendERROR(res, "card not found");
-        return;
-      }
-
-      await this.adapters.stores.card.Delete(card);
-
-      const result = { deleted: true };
-
-      this.sendJSON(res, result, 200);
     });
   }
 }

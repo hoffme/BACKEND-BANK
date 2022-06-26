@@ -48,7 +48,14 @@ class UserStoreMemory implements UserStoreAdapter {
       return 0;
     });
 
-    const users = usersSorted.slice(start, limit);
+    const usersLimited = usersSorted.slice(start, limit);
+
+    const users = usersLimited.map((user) => ({
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      dni: user.dni,
+    }));
 
     return {
       users,

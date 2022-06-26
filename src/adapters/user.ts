@@ -6,6 +6,13 @@ interface User {
   hashPassword: string;
 }
 
+interface UserSafe {
+  id: string;
+  firstName: string;
+  lastName: string;
+  dni: string;
+}
+
 interface UserSearchFilter {
   query?: string;
   start?: number;
@@ -15,7 +22,7 @@ interface UserSearchFilter {
 }
 
 interface UserSearchResult {
-  users: User[];
+  users: UserSafe[];
   start: number;
   limit: number;
   total: number;

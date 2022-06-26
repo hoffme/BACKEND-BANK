@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import Controller from "./controller";
 
 class ContactsController extends Controller {
-  public static searchHandler(req: Request, res: Response, next: NextFunction) {
+  public static search(req: Request, res: Response, next: NextFunction) {
     this.wrpAsync(req, res, next, async () => {
       const query = req.params.query || undefined;
       const limit = parseInt(req.params.limit) || undefined;
