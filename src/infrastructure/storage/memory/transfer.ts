@@ -3,7 +3,7 @@ import {
   TransferSearchFilter,
   TransferSearchResult,
   TransferStoreAdapter,
-} from "../../adapters/transfer";
+} from "../../../adapters/transfer";
 
 class TransferStoreMemory implements TransferStoreAdapter {
   private readonly transfers: Transfer[] = [];

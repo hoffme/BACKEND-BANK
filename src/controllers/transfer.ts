@@ -77,15 +77,26 @@ class TransferController extends Controller {
 
       const cardFrom = await this.adapters.stores.card.FindById(params.from_id);
       if (!cardFrom) {
-        this.sendERROR(res, "not found card from", 404);
+        this.sendERROR(res, "not found card from", 400);
+        return;
+      }
+
+      if (cardFrom.balance < params.value) {
+        this.sendERROR(res, "insufficient funds", 400);
         return;
       }
 
       const cardTo = await this.adapters.stores.card.FindById(params.to_id);
       if (!cardTo) {
-        this.sendERROR(res, "not found card to", 404);
+        this.sendERROR(res, "not found card to", 400);
         return;
       }
+
+      cardFrom.balance -= params.value;
+      cardTo.balance += params.value;
+
+      await this.adapters.stores.card.Update(cardFrom);
+      await this.adapters.stores.card.Update(cardTo);
 
       const id = await this.adapters.crypto.uuid();
       const date = new Date().getTime();

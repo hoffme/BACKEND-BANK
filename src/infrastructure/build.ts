@@ -4,7 +4,7 @@ import {
   CardStoreMemory,
   TransferStoreMemory,
   UserStoreMemory,
-} from "./storage";
+} from "./storage/memory";
 
 const buildInfrastructure = async (): Promise<Adapters> => {
   const adapters: Adapters = {

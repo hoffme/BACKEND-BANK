@@ -3,7 +3,7 @@ import {
   UserSearchFilter,
   UserSearchResult,
   UserStoreAdapter,
-} from "../../adapters/user";
+} from "../../../adapters/user";
 
 class UserStoreMemory implements UserStoreAdapter {
   private readonly users: User[] = [];
@@ -23,11 +23,19 @@ class UserStoreMemory implements UserStoreAdapter {
     const limit = filter.limit || 20;
 
     const usersFiltered = this.users.filter((user) => {
-      if (filter.query && !user.dni.includes(filter.query)) return false;
-      if (filter.query && !user.firstName.includes(filter.query)) return false;
-      if (filter.query && !user.lastName.includes(filter.query)) return false;
+      if (filter.query && user.dni.includes(filter.query)) return true;
+      if (
+        filter.query &&
+        user.firstName.toLowerCase().includes(filter.query.toLowerCase())
+      )
+        return true;
+      if (
+        filter.query &&
+        user.lastName.toLowerCase().includes(filter.query.toLowerCase())
+      )
+        return true;
 
-      return true;
+      return false;
     });
 
     const usersSorted = usersFiltered.sort((a, b) => {

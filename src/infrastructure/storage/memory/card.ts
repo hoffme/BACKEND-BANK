@@ -3,14 +3,20 @@ import {
   CardSearchFilter,
   CardSearchResult,
   CardsStoreAdapter,
-} from "../../adapters/cards";
-import randomInRange from "../../utils/random";
+} from "../../../adapters/cards";
+import randomInRange from "../../../utils/random";
 
 class CardStoreMemory implements CardsStoreAdapter {
   private readonly cards: Card[] = [];
 
   public async NewNumberCard(): Promise<string> {
-    return randomInRange(10000000, 99999999).toString();
+    let number = Math.trunc(randomInRange(10000000, 99999999)).toString();
+
+    while (this.cards.find((card) => card.number === number)) {
+      number = Math.trunc(randomInRange(10000000, 99999999)).toString();
+    }
+
+    return number;
   }
 
   public async FindById(id: string): Promise<Card | null> {

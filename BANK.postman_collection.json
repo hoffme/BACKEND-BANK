@@ -1,0 +1,417 @@
+{
+	"info": {
+		"_postman_id": "f58e876f-c924-48f1-9674-dd6cc4492aef",
+		"name": "BANK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8057703"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "sign_up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Juan Ignacio\",\n    \"lastName\": \"Coronel\",\n    \"dni\": \"42773018\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/auth/sign_up",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"auth",
+								"sign_up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sign_in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dni\": \"42773018\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/auth/sign_in",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"auth",
+								"sign_in"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "account",
+			"item": [
+				{
+					"name": "profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI5MmRhZTliYy1jOTczLTQyYzEtYjA0Yy05MjI5YTE1NDhkMGMiLCJpYXQiOjE2NTYyNTE5NDUsImV4cCI6MTY1NjI1Mjg0NX0.a-P6YEhW3ttOaHEOhw82_yhC5Bwdl5us3OZYFfEaGk8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/account/profile",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"account",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "home",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJmNWM4ODZhZS03NjI4LTQzYmItYTEwZi01OGJmYjc3NzNkMWMiLCJpYXQiOjE2NTYyNTA1MTQsImV4cCI6MTY1NjI1MTQxNH0.SznL_CTv2KatHdpyn5DhuOlUaNajP0WnD36N_68576c",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/account/home",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"account",
+								"home"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "contacts",
+			"item": [
+				{
+					"name": "search",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiIwYTMyYTIwOC04NDI0LTQ4NWYtYmQ1OS01ZjlhZDBmZWFhOWUiLCJpYXQiOjE2NTYyNTExNjksImV4cCI6MTY1NjI1MjA2OX0.Sw_fgHncTyZu-RnU8RUUKnEDkx5qVlqZ93GUYmMkRTs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/contacts/search?query=ju",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"contacts",
+								"search"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "ju"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cards",
+			"item": [
+				{
+					"name": "search",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI5MmRhZTliYy1jOTczLTQyYzEtYjA0Yy05MjI5YTE1NDhkMGMiLCJpYXQiOjE2NTYyNTE5NDUsImV4cCI6MTY1NjI1Mjg0NX0.a-P6YEhW3ttOaHEOhw82_yhC5Bwdl5us3OZYFfEaGk8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": \"92dae9bc-c973-42c1-b04c-9229a1548d0c\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/card/search",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"card",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI5MmRhZTliYy1jOTczLTQyYzEtYjA0Yy05MjI5YTE1NDhkMGMiLCJpYXQiOjE2NTYyNTE5NDUsImV4cCI6MTY1NjI1Mjg0NX0.a-P6YEhW3ttOaHEOhw82_yhC5Bwdl5us3OZYFfEaGk8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"visa\",\n    \"balance\": 0,\n    \"pin\": \"472\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/card",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"card"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI5MzdhMmJlOC00MjA3LTQwMGItYTA3Yi03YTQ5YTQ5ZTM4YTEiLCJpYXQiOjE2NTYyMDI4NjcsImV4cCI6MTY1NjIwMzc2N30.qHJysqcx3YXjnj4rFtcuaH036d0T8Mk0pBrirveHHoQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/card/1c9a5788-10ed-4ac4-bfc9-62137b82337c",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"card",
+								"1c9a5788-10ed-4ac4-bfc9-62137b82337c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "transfers",
+			"item": [
+				{
+					"name": "search",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI5MmRhZTliYy1jOTczLTQyYzEtYjA0Yy05MjI5YTE1NDhkMGMiLCJpYXQiOjE2NTYyNTE5NDUsImV4cCI6MTY1NjI1Mjg0NX0.a-P6YEhW3ttOaHEOhw82_yhC5Bwdl5us3OZYFfEaGk8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": \"937a2be8-4207-400b-a07b-7a49a49e38a1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/transfer/search",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"transfer",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI5MmRhZTliYy1jOTczLTQyYzEtYjA0Yy05MjI5YTE1NDhkMGMiLCJpYXQiOjE2NTYyNTE5NDUsImV4cCI6MTY1NjI1Mjg0NX0.a-P6YEhW3ttOaHEOhw82_yhC5Bwdl5us3OZYFfEaGk8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"from_id\": \"3d8f9470-cad6-40b5-ba7c-678044c7142b\",\n    \"to_id\": \"f9485a6e-0570-4590-9462-d52d4a8e4966\",\n    \"value\": 15\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/transfer",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"transfer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI5MzdhMmJlOC00MjA3LTQwMGItYTA3Yi03YTQ5YTQ5ZTM4YTEiLCJpYXQiOjE2NTYyMDI4NjcsImV4cCI6MTY1NjIwMzc2N30.qHJysqcx3YXjnj4rFtcuaH036d0T8Mk0pBrirveHHoQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/card/1c9a5788-10ed-4ac4-bfc9-62137b82337c",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"card",
+								"1c9a5788-10ed-4ac4-bfc9-62137b82337c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "uri",
+			"value": "http://localhost:4000/api",
+			"type": "string"
+		}
+	]
+}
