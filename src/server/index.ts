@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import morgan from "morgan";
 
@@ -16,7 +17,10 @@ declare global {
 const runServer = (port: string) => {
   const api = express();
 
+  api.use(cors());
+
   api.use(morgan("dev"));
+
   api.use(express.json());
   api.use(express.urlencoded({ extended: false }));
 
