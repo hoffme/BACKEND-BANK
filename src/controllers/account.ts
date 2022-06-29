@@ -9,31 +9,44 @@ class AccountController extends Controller {
 
   public static home(req: Request, res: Response, next: NextFunction) {
     this.wrpAsync(req, res, next, async () => {
-      const fromTransfers = await this.adapters.stores.transfer.Search({
+      const from = new Date();
+      const to = new Date();
+
+      from.setFullYear(to.getFullYear(), to.getMonth(), to.getDate() - 7);
+
+      const fromTransfersResult = await this.adapters.stores.transfer.Search({
         fromUserId: req.access.user.id,
         orderBy: "date",
         orderAsc: false,
-        limit: 10,
+        minDate: from.getTime(),
+        maxDate: to.getTime(),
       });
 
-      const toTransfers = await this.adapters.stores.transfer.Search({
+      const toTransfersResult = await this.adapters.stores.transfer.Search({
         toUserId: req.access.user.id,
         orderBy: "date",
         orderAsc: false,
-        limit: 10,
+        minDate: from.getTime(),
+        maxDate: to.getTime(),
       });
 
-      const cards = await this.adapters.stores.card.Search({
+      const cardsResult = await this.adapters.stores.card.Search({
         userId: req.access.user.id,
         orderBy: "number",
         orderAsc: false,
       });
 
-      this.sendJSON(res, {
-        transfersReceived: toTransfers.transfers,
-        transfersIssued: fromTransfers.transfers,
-        cards: cards.cards,
-      });
+      const result = {
+        from: from.getTime(),
+        to: to.getTime(),
+        cards: cardsResult.cards,
+        transfers: [
+          ...toTransfersResult.transfers,
+          ...fromTransfersResult.transfers,
+        ],
+      };
+
+      this.sendJSON(res, result);
     });
   }
 }
