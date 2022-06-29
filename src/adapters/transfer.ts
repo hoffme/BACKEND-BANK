@@ -14,6 +14,7 @@ interface TransferCard {
 
 interface Transfer {
   id: string;
+  label: string;
   from: TransferCard;
   to: TransferCard;
   value: number;
@@ -21,6 +22,7 @@ interface Transfer {
 }
 
 interface TransferSearchFilter {
+  label?: string;
   fromUserId?: string;
   toUserId?: string;
   fromCardId?: string;

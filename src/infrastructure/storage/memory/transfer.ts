@@ -30,6 +30,7 @@ class TransferStoreMemory implements TransferStoreAdapter {
       if (filter.maxDate && filter.maxDate < transfer.date) return false;
       if (filter.minValue && filter.minValue > transfer.value) return false;
       if (filter.maxValue && filter.maxValue < transfer.value) return false;
+      if (filter.label && filter.label !== transfer.label) return false;
 
       return true;
     });

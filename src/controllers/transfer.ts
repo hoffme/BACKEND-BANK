@@ -10,6 +10,7 @@ const orderByEnum = {
 } as const;
 
 const SearchBodyVerify = z.object({
+  label: z.optional(z.string()),
   fromUserId: z.optional(z.string()),
   toUserId: z.optional(z.string()),
   fromCardId: z.optional(z.string()),
@@ -25,6 +26,7 @@ const SearchBodyVerify = z.object({
 });
 
 const CreateBodyVerify = z.object({
+  label: z.string().default(""),
   from_id: z.string(),
   to_id: z.string(),
   value: z.number(),
@@ -104,6 +106,7 @@ class TransferController extends Controller {
 
       const transfer: Transfer = {
         id,
+        label: params.label,
         from: cardFrom,
         to: cardTo,
         date,
