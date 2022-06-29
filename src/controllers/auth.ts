@@ -27,6 +27,7 @@ const SignUpBodyVerify = z.object({
   lastName: z.string(),
   dni: z.string().min(6).max(9),
   password: z.string().min(4),
+  company: z.optional(z.boolean()),
 });
 
 class AuthController extends Controller {
@@ -59,6 +60,7 @@ class AuthController extends Controller {
         lastName: params.lastName,
         dni: params.dni,
         hashPassword: hashPassword,
+        company: params.company || false,
       });
 
       const result = {

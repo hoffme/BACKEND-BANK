@@ -13,6 +13,7 @@ const SearchBodyVerify = z.object({
   query: z.optional(z.string()),
   orderBy: z.optional(z.nativeEnum(orderByEnum)),
   orderAsc: z.optional(z.boolean()),
+  company: z.optional(z.boolean()),
   start: z.optional(z.number().min(0)),
   limit: z.optional(z.number().min(0)),
 });

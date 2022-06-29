@@ -3,6 +3,7 @@ interface User {
   firstName: string;
   lastName: string;
   dni: string;
+  company: boolean;
   hashPassword: string;
 }
 
@@ -11,12 +12,14 @@ interface UserSafe {
   firstName: string;
   lastName: string;
   dni: string;
+  company: boolean;
 }
 
 interface UserSearchFilter {
   query?: string;
   start?: number;
   limit?: number;
+  company?: boolean;
   orderBy?: "dni" | "firstName" | "lastName";
   orderAsc?: boolean;
 }

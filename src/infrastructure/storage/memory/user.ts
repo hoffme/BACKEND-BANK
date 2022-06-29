@@ -63,6 +63,7 @@ class UserStoreMemory implements UserStoreAdapter {
       firstName: user.firstName,
       lastName: user.lastName,
       dni: user.dni,
+      company: user.company,
     }));
 
     return {
